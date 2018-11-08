@@ -1,0 +1,111 @@
+#:set cor_texto 1, 1, 1, 1
+#:set cor_fundo 0.1, 0.2, 0.2, 1
+#:set cor_borda 0,0.2, 0, 1
+#:set cor_botao 0.5, 0.1, 0, 1
+#:set cor_botao_azul .23, .41, .78, 1
+#:set cor_botao_laranja .93, .52, .31, 1
+
+<BotaoEdicao@Button>:
+	nome_imagem: ''
+	background_down: ''
+	background_normal: ''
+	background_color: cor_botao
+	on_press: self.background_color = cor_botao_laranja
+	on_release: self.background_color = cor_botao
+	Image:
+		source: 'icones/' + self.parent.nome_imagem
+		x: self.parent.center_x - 32
+		y: self.parent.center_y - 32
+		size_hint: None, None
+		width: 64
+		height: 64
+
+<BotaoCancelarSalvar@Button>:
+    nome_imagem: ''
+	background_down: ''
+	background_normal: ''
+	background_color: cor_botao
+	font_size: 25
+	on_press: self.background_color = cor_botao_azul
+	on_release: self.background_color = cor_botao
+	Image:
+		source: 'icones/' + self.parent.nome_imagem
+		x: self.parent.center_x - 32
+		y: self.parent.center_y - 32
+		size_hint: None, None
+		width: 64
+		height: 64
+
+<TelaInicial>:
+	BoxLayout:
+		padding: 15
+		BoxLayout:
+			orientation: 'vertical'
+			canvas.before:
+				Color:
+					rgba: cor_borda
+				RoundedRectangle:
+					size: self.size
+					pos: self.pos
+					radius: 8, 8, 8, 8
+				Color:
+					rgba: cor_fundo
+				RoundedRectangle:
+					size: self.size[0] - 12, self.size[1] - 12
+					pos: self.pos[0] + 6, self.pos[1] + 6
+					radius: 8, 8, 8, 8
+			BoxLayout:
+				Image:
+					source: 'icones/editor.png'
+					size_hint: 1, .4
+			Label:
+				id: mensagem
+				color: cor_texto
+				text: 'Arraste uma imagem aqui'
+				font_size: 25
+				font_name: 'AbyssinicaSIL-R'
+				markup: True
+				halign: 'center'
+				valign: 'top'
+				text_size: self.size
+
+<TelaEdicao>:
+	BoxLayout:
+		padding: 15
+		BoxLayout:
+			orientation: 'vertical'
+			BoxLayout:
+				size_hint: 1, None
+				height: 100
+				spacing: 5
+				BotaoEdicao:
+					nome_imagem: 'left.png'
+					on_release: root.girar_anti_horario()
+				BotaoEdicao:
+					nome_imagem: 'right.png'
+					on_release: root.girar_horario()
+				BotaoEdicao:
+					nome_imagem: 'invertcor.png'
+					on_release: root.preto_e_branco()
+                BotaoEdicao:
+					nome_imagem: 'invert.png'
+					on_release: root.esp()
+			Widget:
+				size_hint: 1, None
+				height: 10
+			BoxLayout:
+				id: area_imagem
+			Widget:
+				size_hint: 1, None
+				height: 10
+			BoxLayout:
+				size_hint: 1, None
+				height: 64
+				spacing: 5
+				BotaoCancelarSalvar:
+				    nome_imagem: 'close.png'
+					text: ''
+					on_release: root.cancelar()
+				BotaoCancelarSalvar:
+				    nome_imagem: 'save.png'
+					text: ''
